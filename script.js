@@ -163,15 +163,6 @@ function saveIdea(idea, category) {
     }
 }
 
-function clearSavedIdeas() {
-    localStorage.removeItem('savedIdeas');
-    updateSavedIdeasList();
-    // Clear selected state of all save buttons
-    document.querySelectorAll('.save-idea').forEach(btn => {
-        btn.classList.remove('selected');
-    });
-}
-
 function updateSavedIdeasList() {
     const savedIdeasList = document.getElementById('savedIdeasList');
     const savedIdeasSection = document.getElementById('savedIdeas');
@@ -288,8 +279,9 @@ function generateIdeas() {
         return;
     }
 
-    // Show the framework results container
+    // Show the framework results container and output controls
     document.querySelector('.framework-results').style.display = 'grid';
+    document.querySelector('.output-controls').style.display = 'flex';
 
     const data = {
         topic: topic,
@@ -361,18 +353,42 @@ function generateIdeas() {
 
 // Save all generated ideas
 function saveAllGeneratedIdeas() {
-    document.querySelectorAll('.idea-list li').forEach(li => {
-        const saveBtn = li.querySelector('.save-idea');
-        if (saveBtn && !saveBtn.classList.contains('selected')) {
-            // Find the category from the parent framework-category
-            const category = li.closest('.framework-category')
-                .querySelector('.framework-title')
-                .dataset.framework;
-            
-            saveBtn.classList.add('selected');
-            saveIdea(li.textContent, category);
-        }
-    });
+    const saveAllBtn = document.getElementById('saveAllIdeas');
+    const isUnselectMode = saveAllBtn.textContent.includes('Unselect');
+
+    if (isUnselectMode) {
+        // Unselect all mode
+        document.querySelectorAll('.idea-list li').forEach(li => {
+            const saveBtn = li.querySelector('.save-idea');
+            if (saveBtn && saveBtn.classList.contains('selected')) {
+                const idea = li.textContent;
+                // Remove from saved ideas
+                const savedIdeas = getSavedIdeas().filter(i => i.idea !== idea);
+                localStorage.setItem('savedIdeas', JSON.stringify(savedIdeas));
+                saveBtn.classList.remove('selected');
+            }
+        });
+        saveAllBtn.innerHTML = '<i class="fas fa-bookmark"></i> Save All Ideas';
+        // Clear all saved ideas
+        localStorage.removeItem('savedIdeas');
+        updateSavedIdeasList();
+    } else {
+        // Save all mode
+        document.querySelectorAll('.idea-list li').forEach(li => {
+            const saveBtn = li.querySelector('.save-idea');
+            if (saveBtn && !saveBtn.classList.contains('selected')) {
+                // Find the category from the parent framework-category
+                const category = li.closest('.framework-category')
+                    .querySelector('.framework-title')
+                    .dataset.framework;
+                
+                saveBtn.classList.add('selected');
+                saveIdea(li.textContent, category);
+            }
+        });
+        saveAllBtn.innerHTML = '<i class="fas fa-bookmark"></i> Unselect All Ideas';
+    }
+    updateSavedIdeasList();
 }
 
 function clearAll() {
@@ -390,13 +406,18 @@ function clearAll() {
         checkbox.checked = true;
     });
 
-    // Hide the results section
+    // Hide the results section and output controls
     document.querySelector('.framework-results').style.display = 'none';
+    document.querySelector('.output-controls').style.display = 'none';
 
     // Clear all idea lists
     ['actionableList', 'aspirationalList', 'analyticalList', 'anthropologicalList'].forEach(listId => {
         document.getElementById(listId).innerHTML = '';
     });
+
+    // Clear saved ideas
+    localStorage.removeItem('savedIdeas');
+    updateSavedIdeasList();
 
     // Hide advanced panel if it's open
     document.getElementById('advancedPanel').style.display = 'none';
@@ -410,10 +431,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listeners for idea generation
     document.getElementById('generateBtn').addEventListener('click', generateIdeas);
     
-    // Event listeners for saving/exporting/clearing ideas
+    // Event listeners for saving/exporting ideas
     document.getElementById('saveAllIdeas').addEventListener('click', saveAllGeneratedIdeas);
     document.getElementById('exportIdeas').addEventListener('click', exportToCSV);
-    document.getElementById('clearSaved').addEventListener('click', clearSavedIdeas);
     document.getElementById('clearAllBtn').addEventListener('click', clearAll);
     
     // Advanced options toggle
