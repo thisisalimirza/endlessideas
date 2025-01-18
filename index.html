@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endless Idea Generator - 4A's Framework</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Endless Idea Generator</h1>
+            <p class="subtitle">Based on Nicolas Cole & Dickie Bush's 4A's Framework</p>
+        </header>
+
+        <main>
+            <section class="input-section">
+                <h2>Tell us about your topic</h2>
+                <div class="form-group">
+                    <label for="mainTopic">Main Topic or Niche:</label>
+                    <input type="text" id="mainTopic" placeholder="e.g., Personal Development, Writing, Marketing">
+                </div>
+                <div class="form-group">
+                    <label for="targetAudience">Target Audience:</label>
+                    <input type="text" id="targetAudience" placeholder="e.g., Entrepreneurs, Writers, Students">
+                </div>
+                <div class="form-group">
+                    <label for="keyProblem">Key Problem or Goal:</label>
+                    <input type="text" id="keyProblem" placeholder="e.g., Growing an audience, Making money online">
+                </div>
+                <div class="advanced-options">
+                    <button id="toggleAdvanced" class="secondary-btn">
+                        <i class="fas fa-cog"></i> Advanced Options
+                    </button>
+                    <div id="advancedPanel" class="advanced-panel" style="display: none;">
+                        <div class="category-toggles">
+                            <label><input type="checkbox" checked data-category="actionable"> Actionable</label>
+                            <label><input type="checkbox" checked data-category="aspirational"> Aspirational</label>
+                            <label><input type="checkbox" checked data-category="analytical"> Analytical</label>
+                            <label><input type="checkbox" checked data-category="anthropological"> Anthropological</label>
+                        </div>
+                        <div class="idea-count">
+                            <label for="ideasPerCategory">Ideas per category:</label>
+                            <select id="ideasPerCategory">
+                                <option value="3">3</option>
+                                <option value="5" selected>5</option>
+                                <option value="7">7</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button id="generateBtn" class="primary-btn">Generate Ideas</button>
+            </section>
+
+            <section class="output-section">
+                <div class="output-controls">
+                    <button id="saveAllIdeas" class="secondary-btn">
+                        <i class="fas fa-bookmark"></i> Save All Ideas
+                    </button>
+                    <button id="exportIdeas" class="secondary-btn">
+                        <i class="fas fa-file-export"></i> Export Ideas
+                    </button>
+                    <button id="clearSaved" class="secondary-btn">
+                        <i class="fas fa-trash"></i> Clear Saved
+                    </button>
+                </div>
+                <div class="framework-results">
+                    <div class="framework-category">
+                        <h3 class="framework-title" data-framework="actionable">Actionable Ideas 🎯 <i class="fas fa-info-circle info-icon"></i></h3>
+                        <ul id="actionableList" class="idea-list"></ul>
+                    </div>
+                    <div class="framework-category">
+                        <h3 class="framework-title" data-framework="aspirational">Aspirational Ideas ⭐ <i class="fas fa-info-circle info-icon"></i></h3>
+                        <ul id="aspirationalList" class="idea-list"></ul>
+                    </div>
+                    <div class="framework-category">
+                        <h3 class="framework-title" data-framework="analytical">Analytical Ideas 📊 <i class="fas fa-info-circle info-icon"></i></h3>
+                        <ul id="analyticalList" class="idea-list"></ul>
+                    </div>
+                    <div class="framework-category">
+                        <h3 class="framework-title" data-framework="anthropological">Anthropological Ideas 🧠 <i class="fas fa-info-circle info-icon"></i></h3>
+                        <ul id="anthropologicalList" class="idea-list"></ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="savedIdeas" class="saved-ideas" style="display: none;">
+                <h3>Saved Ideas 📌</h3>
+                <ul id="savedIdeasList" class="idea-list"></ul>
+            </section>
+        </main>
+
+        <!-- Modal Container -->
+        <div id="frameworkModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2 id="modalTitle"></h2>
+                <p id="modalDescription"></p>
+                <div id="modalExamples"></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Inspired by <a href="https://twitter.com/Nicolascole77" target="_blank">Nicolas Cole</a> & <a href="https://twitter.com/dickiebush" target="_blank">Dickie Bush</a>'s 4A's Framework</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
