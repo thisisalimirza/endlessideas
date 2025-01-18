@@ -50,43 +50,71 @@ const frameworkInfo = {
 const templates = {
     actionable: [
         "The Step-by-Step Guide to {goal} for {audience}",
-        "{number} Proven Ways to {goal} in Your {topic} Journey",
+        "{number} Proven Ways to Overcome {problem} in Your {topic} Journey",
         "How to {goal} in {timeframe}: A Blueprint for {audience}",
-        "The Ultimate {topic} Checklist for {audience}",
+        "The Ultimate {topic} Checklist for Solving {problem}",
         "Master {topic} with These {number} Daily Habits",
         "{number} {topic} Exercises That Will Help You {goal}",
-        "The Beginner's Guide to {goal} in {timeframe}",
-        "Transform Your {topic} Results with These {number} Strategies"
+        "The Beginner's Guide to Overcoming {problem} in {timeframe}",
+        "Transform Your {topic} Results: From {problem} to {goal}",
+        "Quick-Start Guide: {goal} for Busy {audience}",
+        "The Complete {topic} Toolkit: From {problem} to {goal}",
+        "{number} Actionable Steps to Master {topic} Today",
+        "Your {timeframe} Action Plan for {goal}",
+        "Essential {topic} Strategies for {audience}",
+        "The No-Nonsense Guide to {goal} in {topic}",
+        "Practical Solutions for {problem} in {topic}"
     ],
     aspirational: [
-        "How I Went From {startPoint} to {endPoint} in {topic}",
+        "How I Overcame {problem} to Achieve {goal} in {topic}",
         "The Secret to {goal} That Nobody Talks About",
-        "Why Most {audience} Fail at {topic} (And How to Succeed)",
-        "The {topic} Mindset That Will Change Your Life",
-        "Break Through Your {topic} Plateau with This Simple Shift",
-        "From Zero to Hero: My {topic} Journey and What I Learned",
-        "The Hidden Truth About {topic} Success",
-        "Unlock Your {topic} Potential with This Framework"
+        "Why Most {audience} Struggle with {problem} (And How to Succeed)",
+        "The {topic} Mindset That Will Transform {problem} into Success",
+        "Break Through Your {problem} Plateau with This Simple Shift",
+        "From Struggling with {problem} to Achieving {goal}: My {topic} Journey",
+        "The Hidden Truth About Overcoming {problem}",
+        "Unlock Your {topic} Potential: Moving Past {problem}",
+        "The Extraordinary Journey: From {problem} to {goal}",
+        "Redefining Success in {topic}: A Vision for {audience}",
+        "Beyond Limits: Transforming Your Approach to {topic}",
+        "The Art of Mastering {topic}: A Success Story",
+        "Dream Bigger: Revolutionary {topic} Strategies",
+        "The {audience}'s Path to {topic} Excellence",
+        "Breakthrough Moments in {topic}: From Vision to Reality"
     ],
     analytical: [
-        "{number} Data-Backed {topic} Strategies That Actually Work",
-        "The Science Behind Successful {topic} Practice",
-        "What {number} Top {audience} Can Teach Us About {topic}",
-        "Analysis: Why {topic} Methods Fail (And What Works Instead)",
-        "The ROI of {topic}: Breaking Down the Numbers",
-        "Case Study: How {audience} Achieve {goal}",
-        "{topic} Trends That Will Define {timeframe}",
-        "The Mathematics of {topic}: Understanding the Core Principles"
+        "{number} Data-Backed Solutions to {problem} in {topic}",
+        "The Science Behind Overcoming {problem} in {topic}",
+        "What {number} Top {audience} Can Teach Us About Solving {problem}",
+        "Analysis: Why {problem} Persists (And What Actually Works)",
+        "The ROI of Solving {problem}: Breaking Down the Numbers",
+        "Case Study: How {audience} Achieve {goal} Despite {problem}",
+        "{topic} Trends That Will Help You Overcome {problem}",
+        "The Mathematics of {topic}: Solving {problem} Systematically",
+        "Statistical Analysis: {topic} Success Factors",
+        "Measuring {topic} Progress: Key Performance Indicators",
+        "Research-Backed Strategies for {goal} in {topic}",
+        "The Data-Driven Approach to Solving {problem}",
+        "Comparative Analysis: Top {topic} Methods",
+        "Evidence-Based Solutions for {audience} in {topic}",
+        "Quantifying Success: {topic} Metrics That Matter"
     ],
     anthropological: [
-        "Why {audience} Struggle with {topic} (And How to Fix It)",
-        "The Psychology Behind Successful {topic} Habits",
-        "What Your {topic} Style Says About You",
-        "{number} Common {topic} Myths Debunked",
-        "The Cultural Impact of {topic} on Modern {audience}",
-        "Understanding the {audience} Mindset: A Deep Dive into {topic}",
-        "The Evolution of {topic}: From Past to Present",
-        "How {topic} Shapes {audience} Identity"
+        "Why {audience} Struggle with {problem} (And How to Fix It)",
+        "The Psychology Behind Overcoming {problem} in {topic}",
+        "What Your Approach to {problem} Says About You",
+        "{number} Common {problem} Myths Debunked",
+        "The Cultural Impact of {problem} on Modern {audience}",
+        "Understanding the {problem} Mindset: A Deep Dive into {topic}",
+        "The Evolution of {problem}: From Challenge to Opportunity",
+        "How {problem} Shapes {audience} Identity (And How to Change It)",
+        "The Social Dynamics of {topic} Success",
+        "Cultural Perspectives on {topic} Excellence",
+        "Behavioral Patterns in Successful {topic} Practitioners",
+        "The Human Element: {topic} Beyond the Basics",
+        "Community Insights: How {audience} Navigate {problem}",
+        "The Psychology of {topic} Mastery",
+        "Social Trends Reshaping {topic} Practice"
     ]
 };
 
@@ -101,14 +129,23 @@ function fillTemplate(template, data) {
     const numbers = ['3', '5', '7', '10', '12', '15'];
     const timeframes = ['30 Days', '60 Days', '90 Days', '6 Months', 'One Year'];
     
-    return template
+    let filledTemplate = template
         .replace('{topic}', data.topic)
         .replace('{audience}', data.audience)
-        .replace('{goal}', data.goal)
         .replace('{number}', numbers[Math.floor(Math.random() * numbers.length)])
         .replace('{timeframe}', timeframes[Math.floor(Math.random() * timeframes.length)])
         .replace('{startPoint}', 'Struggling')
         .replace('{endPoint}', 'Mastery');
+
+    // Handle goal and problem separately based on context
+    if (template.includes('{goal}')) {
+        filledTemplate = filledTemplate.replace('{goal}', data.goal);
+    }
+    if (template.includes('{problem}')) {
+        filledTemplate = filledTemplate.replace('{problem}', data.problem);
+    }
+    
+    return filledTemplate;
 }
 
 // Local storage and saving functions
@@ -237,18 +274,28 @@ function closeFrameworkModal() {
 function generateIdeas() {
     const topic = document.getElementById('mainTopic').value.trim();
     const audience = document.getElementById('targetAudience').value.trim();
-    const goal = document.getElementById('keyProblem').value.trim();
+    const problem = document.getElementById('keyProblem').value.trim();
+    const goal = document.getElementById('desiredGoal').value.trim();
     const ideasPerCategory = parseInt(document.getElementById('ideasPerCategory').value);
 
-    if (!topic || !audience || !goal) {
-        alert('Please fill in all fields to generate ideas!');
+    if (!topic || !audience) {
+        alert('Please fill in the Topic and Audience fields!');
         return;
     }
+
+    if (!problem && !goal) {
+        alert('Please fill in either a Problem to solve or a Goal to achieve (or both)!');
+        return;
+    }
+
+    // Show the framework results container
+    document.querySelector('.framework-results').style.display = 'grid';
 
     const data = {
         topic: topic,
         audience: audience,
-        goal: goal
+        problem: problem || "this challenge", // fallback for problem-focused templates
+        goal: goal || "succeed" // fallback for goal-focused templates
     };
 
     // Get selected categories
@@ -262,7 +309,25 @@ function generateIdeas() {
         
         if (selectedCategories.includes(category)) {
             categorySection.style.display = 'block';
-            const selectedTemplates = getRandomItems(templates[category], ideasPerCategory);
+            
+            // Filter templates based on available inputs
+            const availableTemplates = templates[category].filter(template => {
+                const needsProblem = template.includes('{problem}');
+                const needsGoal = template.includes('{goal}');
+                
+                // Include template if:
+                // 1. It needs a problem and we have one, or
+                // 2. It needs a goal and we have one, or
+                // 3. It doesn't need either
+                return (!needsProblem || problem) && (!needsGoal || goal);
+            });
+
+            if (availableTemplates.length === 0) {
+                list.innerHTML = '<li class="no-ideas">No templates available for the provided inputs</li>';
+                return;
+            }
+
+            const selectedTemplates = getRandomItems(availableTemplates, Math.min(ideasPerCategory, availableTemplates.length));
             const ideas = selectedTemplates.map(template => fillTemplate(template, data));
             
             list.innerHTML = '';
@@ -310,6 +375,33 @@ function saveAllGeneratedIdeas() {
     });
 }
 
+function clearAll() {
+    // Clear all input fields
+    document.getElementById('mainTopic').value = '';
+    document.getElementById('targetAudience').value = '';
+    document.getElementById('keyProblem').value = '';
+    document.getElementById('desiredGoal').value = '';
+
+    // Reset ideas per category to default
+    document.getElementById('ideasPerCategory').value = '5';
+
+    // Check all category toggles
+    document.querySelectorAll('.category-toggles input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = true;
+    });
+
+    // Hide the results section
+    document.querySelector('.framework-results').style.display = 'none';
+
+    // Clear all idea lists
+    ['actionableList', 'aspirationalList', 'analyticalList', 'anthropologicalList'].forEach(listId => {
+        document.getElementById(listId).innerHTML = '';
+    });
+
+    // Hide advanced panel if it's open
+    document.getElementById('advancedPanel').style.display = 'none';
+}
+
 // Initialize everything after DOM content is loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize saved ideas list
@@ -322,6 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('saveAllIdeas').addEventListener('click', saveAllGeneratedIdeas);
     document.getElementById('exportIdeas').addEventListener('click', exportToCSV);
     document.getElementById('clearSaved').addEventListener('click', clearSavedIdeas);
+    document.getElementById('clearAllBtn').addEventListener('click', clearAll);
     
     // Advanced options toggle
     document.getElementById('toggleAdvanced').addEventListener('click', () => {
@@ -336,22 +429,44 @@ document.addEventListener('DOMContentLoaded', () => {
             showFrameworkInfo(framework);
         });
     });
-    
-    // Modal close handlers
-    const modal = document.getElementById('frameworkModal');
-    const closeModal = document.querySelector('.close-modal');
-    
-    closeModal.addEventListener('click', closeFrameworkModal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeFrameworkModal();
-        }
+
+    // Info button click handlers
+    document.querySelectorAll('.info-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const modalId = btn.dataset.modal + 'Modal';
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
     });
     
-    // ESC key to close modal
+    // Modal close handlers
+    document.querySelectorAll('.modal .close-modal').forEach(closeBtn => {
+        closeBtn.addEventListener('click', () => {
+            closeBtn.closest('.modal').style.display = 'none';
+            document.body.style.overflow = '';
+        });
+    });
+
+    // Click outside modal to close
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    
+    // ESC key to close modals
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.style.display === 'block') {
-            closeFrameworkModal();
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal').forEach(modal => {
+                if (modal.style.display === 'block') {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            });
         }
     });
     

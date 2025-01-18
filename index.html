@@ -25,9 +25,26 @@
                     <label for="targetAudience">Target Audience:</label>
                     <input type="text" id="targetAudience" placeholder="e.g., Entrepreneurs, Writers, Students">
                 </div>
-                <div class="form-group">
-                    <label for="keyProblem">Key Problem or Goal:</label>
-                    <input type="text" id="keyProblem" placeholder="e.g., Growing an audience, Making money online">
+                <div class="optional-inputs">
+                    <div class="form-group optional-group">
+                        <label for="keyProblem">
+                            Problem:
+                            <button type="button" class="info-btn" data-modal="problemInfo">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                        </label>
+                        <input type="text" id="keyProblem" placeholder="e.g., Procrastination, Writer's Block">
+                    </div>
+                    <div class="optional-separator">or</div>
+                    <div class="form-group optional-group">
+                        <label for="desiredGoal">
+                            Goal:
+                            <button type="button" class="info-btn" data-modal="goalInfo">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                        </label>
+                        <input type="text" id="desiredGoal" placeholder="e.g., Write Daily, Build an Audience">
+                    </div>
                 </div>
                 <div class="advanced-options">
                     <button id="toggleAdvanced" class="secondary-btn">
@@ -52,6 +69,9 @@
                     </div>
                 </div>
                 <button id="generateBtn" class="primary-btn">Generate Ideas</button>
+                <button id="clearAllBtn" class="secondary-btn full-width">
+                    <i class="fas fa-sync"></i> Clear All
+                </button>
             </section>
 
             <section class="output-section">
@@ -66,7 +86,7 @@
                         <i class="fas fa-trash"></i> Clear Saved
                     </button>
                 </div>
-                <div class="framework-results">
+                <div class="framework-results" style="display: none;">
                     <div class="framework-category">
                         <h3 class="framework-title" data-framework="actionable">Actionable Ideas 🎯 <i class="fas fa-info-circle info-icon"></i></h3>
                         <ul id="actionableList" class="idea-list"></ul>
@@ -99,6 +119,50 @@
                 <h2 id="modalTitle"></h2>
                 <p id="modalDescription"></p>
                 <div id="modalExamples"></div>
+            </div>
+        </div>
+
+        <!-- Problem Info Modal -->
+        <div id="problemInfoModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Problem-Focused Headlines</h2>
+                <p>Problem-focused headlines address specific challenges or pain points your audience faces. They work well for:</p>
+                <ul class="modal-list">
+                    <li>Addressing common struggles and frustrations</li>
+                    <li>Offering solutions to specific challenges</li>
+                    <li>Connecting with readers through shared experiences</li>
+                </ul>
+                <div class="modal-examples">
+                    <h3>Example Headlines:</h3>
+                    <ul>
+                        <li>"Why [audience] Struggle with [problem] (And How to Fix It)"</li>
+                        <li>"5 Proven Ways to Overcome [problem]"</li>
+                        <li>"The Hidden Truth About [problem]"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Goal Info Modal -->
+        <div id="goalInfoModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Goal-Focused Headlines</h2>
+                <p>Goal-focused headlines emphasize positive outcomes and aspirations. They work well for:</p>
+                <ul class="modal-list">
+                    <li>Inspiring and motivating your audience</li>
+                    <li>Highlighting achievable outcomes</li>
+                    <li>Creating a vision of success</li>
+                </ul>
+                <div class="modal-examples">
+                    <h3>Example Headlines:</h3>
+                    <ul>
+                        <li>"The Step-by-Step Guide to [goal]"</li>
+                        <li>"How to [goal] in 30 Days"</li>
+                        <li>"The Secret to [goal] That Nobody Talks About"</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
